@@ -29,3 +29,22 @@ router.post('/create', function (req, res, next) {
             })
     })
 })
+
+function validatePassword(password, expected) {
+    return password === expected;
+}
+
+router.post('/login', function (req, res, next) {
+    client.connect(err => {
+        const users = client.db('sds-db').collection('users')
+        users.find({ "name": req.body.name }).toArray(
+            (error, result) => {
+                client.close()
+                if (error || result.length == 0 ||
+                    !validatePassword(req.body.password, result[0].password) ) {
+                        return res.send(error || 401)
+                }
+                res.sendStatus(200)
+            })
+    })
+})
