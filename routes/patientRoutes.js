@@ -8,7 +8,16 @@ router.get('/sds/patient/create', function(req, res, next) {
 });
 
 router.post('/sds/patient/create', function(req, res, next) {
-    patients.create(null);
+    patients.create(
+        patient = {
+            name: req.body['first-name'],
+            password: req.body['last-name']
+        },
+        (error, data) => {
+            if(error) return next(error)
+            res.redirect('/');
+        }
+    );
 });
 
 module.exports = router;
