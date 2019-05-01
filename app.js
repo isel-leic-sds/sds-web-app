@@ -1,6 +1,8 @@
 const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
+const favicon = require('serve-favicon')
+const bodyParser = require("body-parser")
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const hbs = require('hbs')
@@ -16,11 +18,15 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
 hbs.registerPartials(path.join(__dirname + '/views/partials'))
 
+app.use(favicon(path.join(__dirname + '/public/images/favicon', 'sds-web-favicon.ico')))
+app.use('/public/', express.static(path.join(__dirname, '/public')))
+
 app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/sds/api/patient', apiPatient)
 
@@ -34,7 +40,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // set locals, only providing error in development  
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 

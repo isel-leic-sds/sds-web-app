@@ -1,18 +1,15 @@
+'use strict'
 const express = require('express');
 const router = express.Router();
-const patients = require('../service/patientService')()
+
+/**
+ * Patient Controller
+ * @private
+ */
+const patientCtrl = require('../controller/patientController')()
+
+router.get('/sds/patients', patientCtrl.showPatients)
+router.get('/sds/patient/create', patientCtrl.showPatientCreateForm)
+router.post('/sds/patient/create', patientCtrl.sendPatientForm)
 
 module.exports = router;
-
-router.get('/sds/patient/create', function(req, res, next) {
-    res.render('patientForm')
-});
-
-router.post('/sds/patient/create', function(req, res, next) {
-    patients.create(patient = req.body,
-        (error, data) => {
-            if(error) return next(error)
-            res.redirect('/')
-        }
-    )
-})

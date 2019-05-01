@@ -1,0 +1,32 @@
+{{!-- Menu --}}
+<header>
+    <div class="ui segment">
+        <div class="ui secondary pointing menu">
+            <a class="item" href="/sds/home">
+                <img class "ui mini image" src="\public\images\sds-mini-logo.png"></a>
+            <a class="item {{#if patients}} active {{/if}}" href="/sds/patients" style="color:#005461;">
+                <i class="address book outline icon"></i>Os meus pacientes</a>
+
+            <div class="right menu">
+                {{#if movies}}
+                <div class="item">
+                    <div class="ui icon input">
+                        <form class="ui form" id="searchForm" action="/search" method="GET" class="ui category search">
+                            <input id="searchMovie" name="name" type="text" placeholder="Find Movies..."></input>
+                        </form>
+                        <i class="search icon"></i>
+                    </div>
+                </div>
+                {{/if}}
+                {{#if userAuthen}}
+                <div class="item">Bem vindo, {{userAuthen}}</div>
+                <a class="item" href="/logout">
+                    <i class="sign out alternate icon"></i> Logout </a>
+                {{else}}
+                <button id="signIn" class="ui button item">
+                    <i class="sign in alternate icon"></i> Login </button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</header>

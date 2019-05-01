@@ -1,14 +1,81 @@
 <!-- Semantic UI CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $("#signIn").click(function () {
+            $(".signIn").modal('show');
+        });
+        $(".signIn").modal({
+            closable: true
+        });
+    });
+</script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $('.ui.accordion').accordion(
+            {
+                exclusive: false
+            }
+        );
+    });
+</script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $('.ui.form').form({
+            fields: {
+                email: {
+                    identifier: 'email',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter your e-mail'
+                        }
+                    ]
+                },
+                password: {
+                    identifier: 'password',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter your password'
+                        }
+                    ]
+                }
+            }
+        });
+    });
+</script>
 <style>
     .site {
         display: flex;
         min-height: 100vh;
         flex-direction: column;
     }
-    
+
     .site-content {
         flex: 1;
     }
+
+    .ui.horizontal.divider.header.black-bg {
+        background-color: #005461;
+    }
+
+    .item:hover {
+        color: #04B8D4;
+    }
+
+    .dark {
+        color: #005461;
+    }
+
+    .light {
+        background-color: #04B8D4;
+    }
+
+    .black {
+        background-color: #00282E;
+    }
+}
 </style>
