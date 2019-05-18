@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(cookieParser())
 
-app.use('/sds/api/patient', apiPatient)
+app.use('/sds/api/v1/patient', apiPatient)
 
 app.use(indexRouter)
 app.use(patientsRouter)

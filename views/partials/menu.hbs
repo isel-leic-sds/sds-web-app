@@ -8,25 +8,17 @@
                 <i class="address book outline icon"></i>Os meus pacientes</a>
 
             <div class="right menu">
-                {{#if movies}}
-                <div class="item">
-                    <div class="ui icon input">
-                        <form class="ui form" id="searchForm" action="/search" method="GET" class="ui category search">
-                            <input id="searchMovie" name="name" type="text" placeholder="Find Movies..."></input>
-                        </form>
-                        <i class="search icon"></i>
-                    </div>
-                </div>
-                {{/if}}
                 {{#if userAuthen}}
                 <div class="item">Bem vindo, {{userAuthen}}</div>
                 <a class="item" href="/logout">
-                    <i class="sign out alternate icon"></i> Logout </a>
+                    <i class="sign out alternate icon"></i>Sair</a>
                 {{else}}
-                <button id="signIn" class="ui button item">
-                    <i class="sign in alternate icon"></i> Login </button>
+                <button id="sign-in-btn" class="ui button item">
+                    <i class="sign in alternate icon"></i>Iniciar Sessão</button>
                 {{/if}}
             </div>
         </div>
     </div>
+    {{>signInForm}}
+    {{>signUpForm}}
 </header>

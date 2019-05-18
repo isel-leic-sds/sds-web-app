@@ -19,7 +19,7 @@ module.exports = function () {
     }
 
     function sendPatientForm(req, res, next) {
-        patients.create(patient = req.body,
+        patientService.create(req.body,
             (error, data) => {
                 if(error) return next(error)
                 res.redirect('/')

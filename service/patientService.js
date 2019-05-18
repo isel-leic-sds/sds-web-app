@@ -1,8 +1,7 @@
 
+const request = require('request');
 
 function init() {
-
-    const request = require('request');
 
     return {
         create
@@ -10,7 +9,7 @@ function init() {
 
     function create(patient, cb) {
         request.post({
-            url:'http://localhost:3000/sds/api/patient/create',
+            url:'http://localhost:3000/sds/api/patient/v1/create',
             form: patient
         }, (error, httpResponse, body) => {
             if (error) return cb(error)

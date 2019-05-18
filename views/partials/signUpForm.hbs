@@ -1,12 +1,12 @@
-{{!-- Sign in form --}}
-<div class="ui modal sign-in-form">
+{{!-- Sign Up form --}}
+<div class="ui modal sign-up-form">
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             <h2 class="ui image header">
                 <img class="image" src="\public\images\sds-mini-logo.png">
-                <div class="content">Autenticação</div>
+                <div class="content">Novo Utilizador</div>
             </h2>
-            <form class="ui large form" method="POST" action="/login">
+            <form class="ui large form" method="POST" action="/signup">
                 <div class="ui stacked segment">
                     <div class="field">
                         <div class="ui left icon input">
@@ -20,18 +20,11 @@
                             <input type="password" name="password" placeholder="Password">
                         </div>
                     </div>
-                    <div class="ui fluid large submit button">Autenticar</div>
+                    <div class="ui fluid large submit button">Registar</div>
                 </div>
 
                 <div class="ui error message"></div>
-
             </form>
-
-            <div class="ui message">
-                Ainda não tem conta?
-                <button id="sign-up-btn" class="ui button item">
-                    <i class="user md icon"></i>Registe-se!</button>
-            </div>
         </div>
     </div>
 </div>

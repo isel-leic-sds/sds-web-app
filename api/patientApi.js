@@ -7,7 +7,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true })
 
 module.exports = router;
 
-router.post('/v1/create', function (req, res, next) {
+router.post('/create', function (req, res, next) {
     patient = {
         name: req.body['first-name'],
         password: req.body['last-name']
@@ -34,7 +34,7 @@ function validatePassword(password, expected) {
     return password === expected;
 }
 
-router.post('/v1/login', function (req, res, next) {
+router.post('/login', function (req, res, next) {
     client.connect(err => {
         const users = client.db('sds-db').collection('users')
         users.find({ "name": req.body.name }).toArray(
