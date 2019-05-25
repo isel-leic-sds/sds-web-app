@@ -4,9 +4,9 @@ module.exports = patientController
 function patientController(patientService) {
 
     return {
-        showPatients,
-        showPatientCreateForm,
-        sendPatientForm
+        showPatients: showPatients,
+        showPatientCreateForm: showPatientCreateForm,
+        sendPatientForm: sendPatientForm
     }
 
     function showPatients(req, res, next) {

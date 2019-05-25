@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const MongoClient = require('mongodb').MongoClient
-const uri = "mongodb+srv://sdsAdm1n:sds1819@sds-db-4ttxz.gcp.mongodb.net/test?retryWrites=true"
-const client = new MongoClient(uri, { useNewUrlParser: true })
+const url = "mongodb+srv://sdsAdm1n:sds1819@sds-db-4ttxz.gcp.mongodb.net/test?retryWrites=true"
+const useNewUrlParser = { useNewUrlParser: true }
 
 module.exports = router;
 
@@ -13,7 +13,7 @@ router.post('/patient/create', function (req, res, next) {
         name: req.body['first-name'],
         password: req.body['last-name']
     }
-    client.connect(err => {
+    MongoClient.connect(url, useNewUrlParser, (err, client) => {
         const users = client.db('sds-db').collection('users')
         users.find({ "name": patient.name }).toArray(
             (error, result) => {
@@ -37,7 +37,7 @@ function validatePassword(password, expected) {
 }
 
 router.post('/login', function (req, res, next) {
-    client.connect(err => {
+    MongoClient.connect(url, useNewUrlParser, (err, client) => {
         const users = client.db('sds-db').collection('users')
         users.find({ "name": req.body.name }).toArray(
             (error, result) => {
