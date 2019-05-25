@@ -14,6 +14,11 @@ router.post('/patient/create', function (req, res, next) {
         password: req.body['last-name']
     }
     MongoClient.connect(url, useNewUrlParser, (err, client) => {
+        if (err) {
+            console.log(err)
+            return next(err)
+        }
+        console.log(`client: ${client}, db: ${client.db}`)
         const users = client.db('sds-db').collection('users')
         users.find({ "name": patient.name }).toArray(
             (error, result) => {
@@ -39,6 +44,7 @@ function validatePassword(password, expected) {
 router.post('/login', function (req, res, next) {
     MongoClient.connect(url, useNewUrlParser, (err, client) => {
         if (err) {
+            console.log(err)
             return next(err)
         }
         console.log(`client: ${client}, db: ${client.db}`)
