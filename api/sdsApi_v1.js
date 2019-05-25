@@ -38,6 +38,10 @@ function validatePassword(password, expected) {
 
 router.post('/login', function (req, res, next) {
     MongoClient.connect(url, useNewUrlParser, (err, client) => {
+        if (err) {
+            return next(err)
+        }
+        console.log(`client: ${client}, db: ${client.db}`)
         const users = client.db('sds-db').collection('users')
         users.find({ "name": req.body.name }).toArray(
             (error, result) => {
