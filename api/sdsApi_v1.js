@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const router = express.Router();
 
@@ -7,8 +8,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true })
 
 module.exports = router;
 
-router.post('/create', function (req, res, next) {
-    patient = {
+router.post('/patient/create', function (req, res, next) {
+    const patient = {
         name: req.body['first-name'],
         password: req.body['last-name']
     }
@@ -18,14 +19,15 @@ router.post('/create', function (req, res, next) {
             (error, result) => {
                 if (error || result.length) {
                     client.close()
-                    return res.send(error || 409);
-                }
+                    return res.sendStatus(error || 409);
+                } else {
                 users.insertOne(patient,
                     (error, result) => {
                         client.close()
                         if (error) return res.send(error)
                         else res.sendStatus(201)
                     })
+                }
             })
     })
 })
@@ -42,7 +44,7 @@ router.post('/login', function (req, res, next) {
                 client.close()
                 if (error || result.length == 0 ||
                     !validatePassword(req.body.password, result[0].password) ) {
-                        return res.send(error || 401)
+                        return res.sendStatus(error || 401)
                 }
                 res.sendStatus(200)
             })

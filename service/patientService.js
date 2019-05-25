@@ -1,15 +1,25 @@
-
+'use strict'
 const request = require('request');
 
-function init() {
+module.exports = patientService
+
+function patientService() {
 
     return {
-        create
+        getPatients: getPatients,
+        create: create
+    }
+
+    function getPatients() {
+        request.get({
+            url: 'http://localhost:3000/sds/api/v1/patients'
+        })
     }
 
     function create(patient, cb) {
         request.post({
-            url:'http://localhost:3000/sds/api/patient/v1/create',
+            // url:'https://sds-web-app.herokuapp.com/sds/api/v1/patient/create',
+            url:'http://localhost:3000/sds/api/v1/patient/create',
             form: patient
         }, (error, httpResponse, body) => {
             if (error) return cb(error)
@@ -18,5 +28,3 @@ function init() {
         })
     }
 }
-
-module.exports = init;

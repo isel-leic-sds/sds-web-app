@@ -1,15 +1,17 @@
 'use strict'
+const patientService = require('./../service/patientService')()
 const express = require('express');
-const router = express.Router();
+const patientRoutes = express.Router();
+
+
+module.exports = patientRoutes;
 
 /**
  * Patient Controller
  * @private
  */
-const patientCtrl = require('../controller/patientController')()
+const patientController = require('../controller/patientController')(patientService)
 
-router.get('/sds/patients', patientCtrl.showPatients)
-router.get('/sds/patient/create', patientCtrl.showPatientCreateForm)
-router.post('/sds/patient/create', patientCtrl.sendPatientForm)
-
-module.exports = router;
+patientRoutes.get('/sds/patients', patientController.showPatients)
+patientRoutes.get('/sds/patient/create', patientController.showPatientCreateForm)
+patientRoutes.post('/sds/patient/create', patientController.sendPatientForm)

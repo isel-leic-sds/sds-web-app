@@ -1,3 +1,4 @@
+'use strict'
 const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
@@ -7,11 +8,13 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const hbs = require('hbs')
 
-const indexRouter = require('./routes/routes')
+const indexRouter = require('./routes/indexRoutes')
 const patientsRouter = require('./routes/patientRoutes')
-const apiPatient = require('./api/patientApi')
+const api_v1 = require('./api/sdsApi_v1')
 
 const app = express()
+
+module.exports = app
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -28,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(cookieParser())
 
-app.use('/sds/api/v1/patient', apiPatient)
+app.use('/sds/api/v1', api_v1)
 
 app.use(indexRouter)
 app.use(patientsRouter)
@@ -48,5 +51,3 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
-
-module.exports = app

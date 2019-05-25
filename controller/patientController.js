@@ -1,8 +1,7 @@
 'use strict'
+module.exports = patientController
 
-const patientService = require('./../service/patientService')()
-
-module.exports = function () {
+function patientController(patientService) {
 
     return {
         showPatients,
@@ -11,6 +10,9 @@ module.exports = function () {
     }
 
     function showPatients(req, res, next) {
+        // patientService.getPatients(() => {
+            
+        // })
         res.render('patientList')
     }
 
