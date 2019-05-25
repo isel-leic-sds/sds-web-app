@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const MongoClient = require('mongodb').MongoClient
-const url = "mongodb+srv://sdsAdm1n:sds1819@sds-db-4ttxz.gcp.mongodb.net/test?retryWrites=true"
+const url = process.env.MONGODB_URI || "mongodb+srv://sdsAdm1n:sds1819@sds-db-4ttxz.gcp.mongodb.net/test?retryWrites=true"
 const useNewUrlParser = { useNewUrlParser: true }
 
 module.exports = router;
