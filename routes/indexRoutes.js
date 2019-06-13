@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const router = express.Router();
 
@@ -8,5 +9,17 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/sds/home', function(req, res, next) {
-  res.render('home');
+  let obj = {}
+  if (req.cookies.user) {
+    obj.username = req.cookies.user.name
+  }
+  res.render('home', obj);
 });
+
+router.get('/sds/about_us', function(req, res, next) {
+  let obj = {}
+  if (req.cookies.user) {
+    obj.username = req.cookies.user.name
+  }
+  res.render('about', obj);
+})

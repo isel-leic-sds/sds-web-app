@@ -1,8 +1,8 @@
 'use strict'
-const patientService = require('./../service/patientService')()
 const express = require('express');
 const patientRoutes = express.Router();
 
+const patientService = require('./../service/patientService')()
 
 module.exports = patientRoutes;
 

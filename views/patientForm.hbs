@@ -1,15 +1,85 @@
-{{!-- patient registration --}}
-{{>menu}}
+{{!-- Patients Registration Form --}}
+<header>
+  {{> menu patients="active"}}
+</header>
 <main class="site-content">
-  <form class="ui form" method="POST">
-    <div class="field">
-      <label>First Name</label>
-      <input type="text" name="first-name" placeholder="First Name">
+  <div class="ui basic segment">
+    <h1 style="display: inline; color:#005461;">
+      <i class="item users icon"></i>
+      Formulário de registo de um paciente
+    </h1>
+  </div>
+  <form class="ui form patient" style="color:#005461" method="POST">
+    <div class="ui basic segment">
+      <div class="ui two column very relaxed grid">
+        <div class="column">
+          <div class="ui segment">
+            <div class="field">
+              <i class="user icon"></i>
+              Nome
+              <input type="text" name="name" placeholder="Nome do paciente">
+            </div>
+          </div>
+          <div class="ui segment">
+            <div class="ui two column very relaxed grid">
+              <div class="column">
+                <div id="patient_ID-field" class="field">
+                  <i class="key icon"></i>
+                  Identificador do Sistema Digital de Saúde
+                  <input id="patient_ID-data" type="text" name="sdsID" placeholder="SDS ID">
+                </div>
+              </div>
+              <div class="column">
+                <div class="field">
+                  <i class="lock icon"></i>
+                  Palavra-passse
+                  <input type="password" name="password" placeholder="Palavra-passse">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui segment">
+            <div class="field">
+              <i class="id badge icon"></i>
+              Número de Identificação Fiscal (NIF)
+              <input type="number" name="nif" placeholder="Número de Identificação Fiscal">
+            </div>
+            <div class="field">
+              <i class="calendar alternate outline icon"></i>
+              Data de nascimento
+              <input type="date" name="dateOfBirth" placeholder="Data de nascimento do paciente">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <h2 style="display: inline; color:#005461;">
+            <i class="users icon"></i>
+            Contacto S.O.S.
+          </h2>
+          <div class="ui segment">
+            <div class="field">
+              <i class="key icon"></i>
+              Nome
+              <input type="text" name="contact-name" placeholder="Nome do Contacto S.O.S.">
+            </div>
+            <div class="field">
+              <i class="phone icon"></i>
+              Contacto telefónico
+              <input type="number" name="contact-phoneNumber" placeholder="Número de telephone">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui grid">
+        <div class="column">
+          <div class="ui clearing divider"></div>
+          <button id="create-patient-btn" class="ui right positive right labeled icon submit button">Registar
+            <i class="checkmark icon"></i>
+          </button>
+          <div class="ui clearing divider"></div>
+          <div class="ui error message"></div>
+        </div>
+      </div>
     </div>
-    <div class="field">
-      <label>Last Name</label>
-      <input type="text" name="last-name" placeholder="Last Name">
-    </div>
-    <button class="ui button" type="submit">Guardar</button>
   </form>
 </main>

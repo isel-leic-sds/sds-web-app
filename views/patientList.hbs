@@ -1,11 +1,46 @@
-{{!-- Patients Registration Form --}}
+{{!-- Patients List --}}
 <header>
     {{> menu patients="active"}}
 </header>
 <main class="site-content">
     <div class="ui basic segment">
-        <button class="ui right floated button" data-tooltip="Associe um novo paciente a si." data-position="left center">
+        <h1 style="display: inline; color:#005461;">
+            {{#if hasPatients}}
+            <i class="users icon"></i>Pacientes</a>
+            {{else}}
+            <i class="exclamation triangle icon"></i>Não tem pacientes associados!</a>
+            {{/if}}
+        </h1>
+        <button class="ui right floated button"
+            data-tooltip="Associe um novo paciente a si." data-position="left center">
             <a href="/sds/patient/create"><i class="plus icon"></i>Novo paciente</a>
         </button>
     </div>
+    {{#if hasPatients}}
+    <div class="ui basic segment">
+        <div class="ui two column very relaxed grid">
+            <div class="column">
+                {{#each patientsList}}
+            {{!-- <div class="item">
+                <i class="large tv icon"></i>
+                <div class="content">
+                    <div class="header">
+                        <a href="/cinemas/{{id}}">{{name}}</a>
+                    </div>
+                </div>
+            </div> --}}
+            {{/each}}
+            </div>
+            <div class="column">
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+                <p>4</p>
+            </div>
+        </div>
+        <div class="ui vertical divider">
+            and
+        </div>
+    </div>
+    {{/if}}
 </main>

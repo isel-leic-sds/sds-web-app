@@ -2,23 +2,27 @@
 <header>
     <div class="ui segment">
         <div class="ui secondary pointing menu">
-            <a class="item" href="/sds/home">
+            <a class="ui dark-color {{#if home}} active selected {{/if}} item" href="/sds/home">
                 <img class "ui mini image" src="\public\images\sds-mini-logo.png"></a>
-            <a class="item {{#if patients}} active {{/if}}" href="/sds/patients" style="color:#005461;">
+            {{#if username}}
+            <a class="ui dark-color {{#if patients}} active selected {{/if}} item" href="/sds/patients">
                 <i class="address book outline icon"></i>Os meus pacientes</a>
+            {{/if}}
+            <a class="ui dark-color {{#if about}} active selected {{/if}} item" href="/sds/about_us">
+                <i class="info icon"></i>Sobre nós</a>
 
             <div class="right menu">
-                {{#if userAuthen}}
-                <div class="item">Bem vindo, {{userAuthen}}</div>
-                <a class="item" href="/logout">
-                    <i class="sign out alternate icon"></i>Sair</a>
+                {{#if username}}
+                <div class="ui light-color item">Bem vindo(a), {{username}}</div>
+                <a class="ui dark-color item" href="/logout">
+                    <i class="dark-color sign out icon"></i>Sair</a>
                 {{else}}
-                <button id="sign-in-btn" class="ui button item">
-                    <i class="sign in alternate icon"></i>Iniciar Sessão</button>
+                <button id="sign-in-btn" class="ui light-color text button item">
+                    <i class="light-color sign in alternate icon"></i>Iniciar Sessão</button>
                 {{/if}}
             </div>
         </div>
     </div>
-    {{>signInForm}}
-    {{>signUpForm}}
+    {{> signInForm }}
+    {{> signUpForm }}
 </header>

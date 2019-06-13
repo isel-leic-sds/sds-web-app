@@ -1,14 +1,25 @@
 'use strict'
+ /**
+ * Module dependencies.
+ * @private
+ */
 const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
 const favicon = require('serve-favicon')
 const bodyParser = require("body-parser")
-const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const hbs = require('hbs')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const passport = require('passport')
 
+/**
+ * Routes dependencies.
+ * @private
+ */
 const indexRouter = require('./routes/indexRoutes')
+const userRouter = require('./routes/userRoutes')
 const patientsRouter = require('./routes/patientRoutes')
 const api_v1 = require('./api/sdsApi_v1')
 
@@ -30,11 +41,15 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(cookieParser())
+app.use(session({secret: 'sds', resave: false, saveUninitialized: true }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/sds/api/v1', api_v1)
 
 app.use(indexRouter)
 app.use(patientsRouter)
+app.use(userRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,12 +57,16 @@ app.use(function(req, res, next) {
 })
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(error, req, res, next) {
+  let obj = {}
+  if (req.cookies.user) {
+    obj.username = req.cookies.user.name
+  }
   // set locals, only providing error in development  
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  res.locals.message = error.message
+  res.locals.error = req.app.get('env') === 'development' ? error : {}
 
   // render the error page
-  res.status(err.status || 500)
-  res.render('error')
+  res.status(error.status || 500)
+  res.render('error', obj)
 })

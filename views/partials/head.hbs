@@ -1,46 +1,41 @@
 <!-- Semantic UI CSS and JS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css'>
+<script src='https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js'></script>
 <script language='javascript'>
     $(document).ready(function () {
-        $("#sign-in-btn").click(function () {
-            $(".sign-in-form").modal('show');
+        $('#sign-in-btn').click(function () {
+            $('.sign-in-modal').modal('show');
         });
-        $(".sign-in-form").modal({
+        $('.sign-in-modal').modal({
             closable: true
         });
     });
 </script>
 <script language='javascript'>
     $(document).ready(function () {
-        $("#sign-up-btn").click(function () {
-            $(".sign-up-form").modal('show');
+        $('#sign-up-btn').click(function () {
+            $('.sign-up-modal').modal('show');
         });
-        $(".sign-up-form").modal({
+        $('.sign-up-modal').modal({
             closable: true
         });
     });
 </script>
 <script language='javascript'>
     $(document).ready(function () {
-        $('.ui.accordion').accordion(
-            {
-                exclusive: false
-            }
-        );
-    });
-</script>
-<script language='javascript'>
-    $(document).ready(function () {
-        $('.ui.form').form({
+        $('.ui.large.form.sign-in').form({
             fields: {
-                email: {
-                    identifier: 'email',
+                sdsID: {
+                    identifier: 'sdsID',
                     rules: [
                         {
-                            type: 'empty',
-                            prompt: 'Introduza um ISD válido'
+                            type:   'empty',
+                            prompt: 'SDS_ID: Introduza um identificador'
+                        },
+                        {
+                            type:   'minLength[5]',
+                            prompt: 'SDS_ID: Mínimo de 5 caracteres'
                         }
                     ]
                 },
@@ -48,11 +43,183 @@
                     identifier: 'password',
                     rules: [
                         {
-                            type: 'empty',
-                            prompt: 'Mínimo de 8 caracteres'
+                            type:   'empty',
+                            prompt: 'Palavra-passe: Introduza uma palavra-passe'
+                        },
+                        {
+                            type:   'minLength[4]',
+                            prompt: 'Palavra-passe: Mínimo de 4 caracteres'
                         }
                     ]
                 }
+            }
+        });
+    });
+</script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $('.ui.large.form.sign-up').form({
+            fields: {
+                name: {
+                    identifier: 'name',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'Nome: Introduza um nome'
+                        }
+                    ]
+                },
+                sdsID: {
+                    identifier: 'sdsID',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'SDS_ID: Introduza um identificador'
+                        },
+                        {
+                            type:   'minLength[5]',
+                            prompt: 'SDS_ID: Mínimo de 5 caracteres'
+                        }
+                    ]
+                },
+                password: {
+                    identifier: 'password',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'Palavra-passe: Introduza uma palavra-passe'
+                        },
+                        {
+                            type:   'minLength[4]',
+                            prompt: 'Palavra-passe: Mínimo de 4 caracteres'
+                        }
+                    ]
+                }
+            }
+        });
+    });
+</script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $('.ui.form.patient').form({
+            fields: {
+                name: {
+                    identifier: 'name',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'Nome: Introduza o nome do paciente'
+                        }
+                    ]
+                },
+                sdsID: {
+                    identifier: 'sdsID',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'SDS_ID: Introduza um identificador'
+                        },
+                        {
+                            type:   'minLength[5]',
+                            prompt: 'SDS_ID: Mínimo de 5 caracteres'
+                        }
+                    ]
+                },
+                password: {
+                    identifier: 'password',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'Palavra-passe: Introduza uma palavra-passe'
+                        },
+                        {
+                            type:   'minLength[4]',
+                            prompt: 'Palavra-passe: Mínimo de 4 caracteres'
+                        }
+                    ]
+                },
+                nif: {
+                    identifier: 'nif',
+                    rules: [
+                        {
+                            type:   'empty',
+                            prompt: 'NIF: Introduza o NIF do paciente'
+                        }
+                    ]
+                }
+            }
+        });
+    });
+</script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $('.ui.light-color.text.button.item').hover(
+            function() {
+                if (!$(this).hasClass('selected')) {
+                    $(this).attr('class', 'ui dark-color text button active item')
+                    $('.light-color.sign.in.alternate.icon').attr('class', 'dark-color sign in alternate icon')
+                }
+            
+            },
+            function() {
+                if (!$(this).hasClass('selected')) {
+                    $(this).attr('class', 'ui light-color text button item')
+                    $('.dark-color.sign.in.alternate.icon').attr('class', 'light-color sign in alternate icon')
+                }
+            }
+        );
+
+        $('.ui.dark-color.item').hover(
+            function() {
+                if (!$(this).hasClass('selected')) {
+                    $(this).attr('class', 'ui light-color active item')
+                }
+            },
+            function() {
+                if (!$(this).hasClass('selected')) {
+                    $(this).attr('class', 'ui dark-color item')
+                }
+            }
+        );
+    });
+</script>
+<script language='javascript'>
+    $(document).ready(function () {
+        $('#patient_ID-data').focusout(function () {
+            const input = $(this)
+            const value = input.val()
+            const field = $('#patient_ID-field')
+            if (value.length >= 5) {
+                $.ajax({
+                    method: 'POST',
+                    url:'https://sds-web-app.herokuapp.com/sds/api/v1/patient/validate',
+                    // url:'http://localhost:3000/sds/api/v1/patient/validate',
+                    data: { patient_id: value }
+                }).done(function (data) {
+                    if (data) {
+                        field.addClass('error')
+                        $('#create-patient-btn').prop('disabled', true)
+                        const errorMessage = $('.ui.error.message')
+                        errorMessage.html(
+                            '<ul class="list">' +
+                                '<li>SDS_ID: Introduza um identificador válido</li>' +
+                            '</ul>' 
+                        )
+                        errorMessage.show()
+                    } else {
+                        field.removeClass('error')
+                        $('#create-patient-btn').prop('disabled', false)
+                        const errorMessage = $('.ui.error.message')
+                        errorMessage.html('')
+                        errorMessage.hide()
+                    }
+                });
+            } else {
+                field.removeClass('error')
+                $('#create-patient-btn').prop('disabled', false)
+                const errorMessage = $('.ui.error.message')
+                errorMessage.html('')
+                errorMessage.hide()
             }
         });
     });
@@ -67,25 +234,37 @@
     .site-content {
         flex: 1;
     }
-
-    .ui.horizontal.divider.header.black-bg {
-        background-color: #005461;
+    
+    /*  Light color 04B8D4*/
+    .ui.light-color.item,
+    .ui.light-color.text.button.item,
+    .ui.light-color.active.item,
+    .light-color.sign.in.alternate.icon,
+    .ui.dark-color.active.selected.item {
+        color:#04B8D4 !important;
     }
 
-    .item:hover {
-        color: #04B8D4;
+    .ui.light-color.active.item,
+    .ui.dark-color.active.selected.item {
+        border-color: #04B8D4 !important;
     }
 
-    .dark {
-        color: #005461;
+    /*  Dark color 005461*/
+    .ui.dark-color.item,
+    .ui.image.header,
+    .dark-color.label,
+    .ui.dark-color.item {
+        color: #005461 !important;
     }
 
-    .light {
-        background-color: #04B8D4;
+    .ui.dark-color.text.button.active.item {
+        border-color: #005461 !important;
+        color: #005461 !important;
     }
 
-    .black {
-        background-color: #00282E;
+    /*  Black color 00282E*/
+    ::placeholder {
+        color: #00282E !important;
+        opacity: 0.3 !important;
     }
-}
 </style>

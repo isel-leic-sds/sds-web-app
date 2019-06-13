@@ -1,37 +1,38 @@
 {{!-- Sign in form --}}
-<div class="ui modal sign-in-form">
-    <div class="ui middle aligned center aligned grid">
-        <div class="column">
-            <h2 class="ui image header">
-                <img class="image" src="\public\images\sds-mini-logo.png">
-                <div class="content">Autenticação</div>
-            </h2>
-            <form class="ui large form" method="POST" action="/sds/api/v1/login">
-                <div class="ui stacked segment">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="user icon"></i>
-                            <input type="text" name="name" placeholder="E-mail address">
-                        </div>
+<div class="ui tiny modal sign-in-modal">
+    <div class="ui segment">
+        <h2 class="ui image right floated header">
+            <img class="image" src="\public\images\sds-mini-logo.png">
+            <div class="content">Autenticação</div>
+        </h2>
+        <div class="ui clearing divider"></div>
+        <form class="ui large form sign-in" method="POST" action="/signin">
+            <div class="ui segment">
+                <div class="field">
+                    <label class="dark-color label">Identificador do Sistema Digital de Saúde</label>
+                    <div class="ui left icon input">
+                        <i class="key icon"></i>
+                        <input type="text" name="sdsID" placeholder="SDS ID">
                     </div>
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="lock icon"></i>
-                            <input type="password" name="password" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="ui fluid large submit button">Autenticar</div>
                 </div>
-
-                <div class="ui error message"></div>
-
-            </form>
-
-            <div class="ui message">
-                Ainda não tem conta?
-                <button id="sign-up-btn" class="ui button item">
-                    <i class="user md icon"></i>Registe-se!</button>
+                <div class="field">
+                    <label class="dark-color label">Palavra-Passe</label>
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Palavra-Passe">
+                    </div>
+                </div>
             </div>
-        </div>
+            <button class="ui positive right labeled icon submit button">Autenticar
+                <i class="checkmark icon"></i>
+            </button>
+            <div class="ui clearing divider"></div>
+            <div class="ui error message"></div>
+        </form>
+        <h4 class="ui horizontal divider header">
+            Ainda não tem conta?
+            <button id="sign-up-btn" class="ui button item">
+                <i class="user md icon"></i>Registe-se!</button>
+        </h4>
     </div>
 </div>
