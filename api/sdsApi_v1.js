@@ -164,3 +164,17 @@ router.post('/login', function (req, res, next) {
         })
     }, next)
 })
+
+router.post('/patient/login', function (req, res, next) {
+    connect((client) => {
+        const patients = client.db(db_name).collection(patients_doc)
+        patients.findOne({ "sdsID": req.body.sdsID }, (error, data) => {
+            let isValid = userController.validatePassword(req.body.password, data.password)
+            if (error || !isValid) {
+                client.close()
+                return res.sendStatus(error || 401)
+            }
+            res.json(data)
+        })
+    }, next)
+})
