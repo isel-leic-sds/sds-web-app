@@ -194,7 +194,7 @@
                     method: 'POST',
                     url:'https://sds-web-app.herokuapp.com/sds/api/v1/patient/validate',
                     // url:'http://localhost:3000/sds/api/v1/patient/validate',
-                    data: { patient_id: value }
+                    data: { sdsID: value }
                 }).done(function (data) {
                     if (data) {
                         field.addClass('error')
@@ -202,7 +202,7 @@
                         const errorMessage = $('.ui.error.message')
                         errorMessage.html(
                             '<ul class="list">' +
-                                '<li>SDS_ID: Introduza um identificador válido</li>' +
+                                '<li>SDS_ID: Este identificador já existe</li>' +
                             '</ul>' 
                         )
                         errorMessage.show()
