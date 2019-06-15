@@ -12,8 +12,8 @@ function patientService() {
 
     function getPatients(data, cb) {
         request.post({
-            // url: 'https://sds-web-app.herokuapp.com/sds/api/v1/patients',
-            url: 'http://localhost:3000/sds/api/v1/patients',
+            url: 'https://sds-web-app.herokuapp.com/sds/api/v1/patients',
+            // url: 'http://localhost:3000/sds/api/v1/patients',
             form: data
         }, (error, httpResponse, body) => {
             if (error) return cb(error)
