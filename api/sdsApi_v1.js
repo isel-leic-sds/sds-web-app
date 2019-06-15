@@ -43,7 +43,7 @@ function connect(success, next) {
 router.post('/patients', function (req, res, next) {
     connect((client) => {
         const patientsList = client.db(db_name).collection(patients_doc)
-        patientsList.find({}).toArray((error, data) => {
+        patientsList.find(req.body).toArray((error, data) => {
             if (error) {
                 client.close()
                 return res.sendStatus(error)
@@ -69,7 +69,10 @@ router.post('/patient/create', function (req, res, next) {
     const patient = {
         sdsID: req.body['sdsID'],
         name: req.body['name'],
-        password: req.body['password']
+        password: req.body['password'],
+        followed_by: [
+            req.body['followed_by']
+        ]
     }
     const info = {
         sdsID: req.body['sdsID'],
@@ -90,7 +93,7 @@ router.post('/patient/create', function (req, res, next) {
             }
             const session = client.startSession({ readPreference: { mode: "primary" } })
             session.startTransaction({ readConcern: { level: "local" }, writeConcern: { w: "majority" } })
-            patients.insertOne(patient, (patients_error, patients_data) => {
+            patients.insertOne(patient, (patients_error, _) => {
                 if (patients_error) {
                     client.close()
                     return next(patients_error)
@@ -105,7 +108,8 @@ router.post('/patient/create', function (req, res, next) {
                     session.commitTransaction()
                     session.endSession()
                     console.log(`Patient ${patient_info_data.ops[0].sdsID} has been created!`)
-                    res.sendStatus(201)
+                    res.statusCode = 201
+                    res.json(patient)
                 })
             })
         })

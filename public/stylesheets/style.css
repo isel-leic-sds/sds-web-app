@@ -1,8 +1,54 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-a {
-  color: #00B7FF;
+.site-content {
+  flex: 1;
+}
+
+/*  Light color 04B8D4*/
+.ui.light-color.item,
+.ui.light-color.text.button.item,
+.ui.light-color.active.item,
+.ui.dark-color.active.selected.item,
+.light-color.sign.in.alternate.icon,
+.ui.light-color.active.header,
+.ui.dark-color.active.selected.header {
+  color:#04B8D4 !important;
+}
+
+.ui.light-color.active.item,
+.ui.dark-color.active.selected.item {
+  border-color: #04B8D4 !important;
+}
+
+/*  Dark color 005461*/
+.ui.dark-color.item,
+.ui.image.header,
+.dark-color.label,
+.ui.dark-color.item,
+.ui.dark-static-color.title.item,
+.ui.dark-color.header {
+  color: #005461 !important;
+}
+
+.ui.dark-color.text.button.active.item {
+  border-color: #005461 !important;
+  color: #005461 !important;
+}
+
+.ui.dark-static-color.title.item {
+  display: inline;
+  font-size: 2em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+/*  Black color 00282E*/
+::placeholder {
+  color: #00282E !important;
+  opacity: 0.3 !important;
 }

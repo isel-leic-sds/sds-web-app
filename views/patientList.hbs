@@ -4,15 +4,16 @@
 </header>
 <main class="site-content">
     <div class="ui basic segment">
-        <h1 style="display: inline; color:#005461;">
-            {{#if hasPatients}}
-            <i class="users icon"></i>Pacientes</a>
-            {{else}}
-            <i class="exclamation triangle icon"></i>Não tem pacientes associados!</a>
-            {{/if}}
-        </h1>
-        <button class="ui right floated button"
-            data-tooltip="Associe um novo paciente a si." data-position="left center">
+        {{#if hasPatients}}
+        <div class="ui dark-static-color title item">
+            <i class="users icon" style="margin-right: 8.5px !important"></i>Pacientes</div>
+        {{else}}
+        <div class="ui dark-static-color title item">
+            <i class="exclamation triangle icon" style="margin-right: 8.5px !important"></i>Não tem pacientes
+            associados!</div>
+        {{/if}}
+        <button class="ui right floated button" data-tooltip="Associe um novo paciente a si."
+            data-position="left center">
             <a href="/sds/patient/create"><i class="plus icon"></i>Novo paciente</a>
         </button>
     </div>
@@ -20,26 +21,27 @@
     <div class="ui basic segment">
         <div class="ui two column very relaxed grid">
             <div class="column">
-                {{#each patientsList}}
-            {{!-- <div class="item">
-                <i class="large tv icon"></i>
-                <div class="content">
-                    <div class="header">
-                        <a href="/cinemas/{{id}}">{{name}}</a>
-                    </div>
-                </div>
-            </div> --}}
-            {{/each}}
+                <table class="ui very basic collapsing celled table">
+                    <tbody>
+                        {{#each patientsList}}
+                        <tr>
+                            <td class="collapsing">
+                                <h4 id="patient-{{@index}}" class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header">
+                                    <i class="user icon"></i>
+                                    <div class="content">
+                                        {{name}}
+                                        <div class="sub header">({{sdsID}})</div>
+                                    </div>
+                                </h4>
+                            </td>
+                            <td></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
-            <div class="column">
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
+            <div id="patient-info" class="column">
             </div>
-        </div>
-        <div class="ui vertical divider">
-            and
         </div>
     </div>
     {{/if}}
