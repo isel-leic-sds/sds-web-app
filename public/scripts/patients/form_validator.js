@@ -66,7 +66,7 @@ $(document).ready(function () {
                     const errorMessage = $('.ui.error.message')
                     errorMessage.html(
                         '<ul class="list">' +
-                        '<li>SDS_ID: Este identificador já existe</li>' +
+                            '<li>SDS_ID: Este identificador já existe</li>' +
                         '</ul>'
                     )
                     errorMessage.show()

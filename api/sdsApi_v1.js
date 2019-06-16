@@ -38,7 +38,7 @@ function connect(success, next) {
 }
 
 /**
- * Patient
+ * Patients
  */
 router.post('/patients', function (req, res, next) {
     connect((client) => {
@@ -53,9 +53,9 @@ router.post('/patients', function (req, res, next) {
     }, next)
 })
 
-router.post('/patient/validate', function (req, res, next) {
+router.post('/patient/info', function (req, res, next) {
     connect((client) => {
-        client.db(db_name).collection(patients_doc).findOne(req.body, (error, data) => {
+        client.db(db_name).collection(patients_info_doc).findOne(req.body, (error, data) => {
             if (error) {
                 client.close()
                 res.sendStatus(error)
@@ -112,6 +112,18 @@ router.post('/patient/create', function (req, res, next) {
                     res.json(patient)
                 })
             })
+        })
+    }, next)
+})
+
+router.post('/patient/validate', function (req, res, next) {
+    connect((client) => {
+        client.db(db_name).collection(patients_doc).findOne(req.body, (error, data) => {
+            if (error) {
+                client.close()
+                res.sendStatus(error)
+            }
+            res.json(data)
         })
     }, next)
 })
