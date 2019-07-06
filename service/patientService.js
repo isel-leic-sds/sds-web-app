@@ -10,11 +10,10 @@ function patientService() {
         create: create
     }
 
-    function getPatients(data, cb) {
-        request.post({
-            url: 'https://sds-web-app.herokuapp.com/sds/api/v1/patients',
-            // url: 'http://localhost:3000/sds/api/v1/patients',
-            form: data
+    function getPatients(followed_by, cb) {
+        request.get({
+            url:    `https://sds-web-app.herokuapp.com/sds/api/v1/patients/${followed_by}`,
+            // url: `http://localhost:3000/sds/api/v1/patients/${followed_by}`,
         }, (error, httpResponse, body) => {
             if (error) return cb(error)
             if (httpResponse.statusCode !== 200) return cb(new Error('Não foi possível aceder aos seus pacientes :( Contacte um administrador.'))
@@ -24,8 +23,8 @@ function patientService() {
 
     function create(patient, cb) {
         request.post({
-            url:    'https://sds-web-app.herokuapp.com/sds/api/v1/patient/create',
-            // url: 'http://localhost:3000/sds/api/v1/patient/create',
+            url:    'https://sds-web-app.herokuapp.com/sds/api/v1/patient',
+            // url:    'http://localhost:3000/sds/api/v1/patient',
             form:   patient
         }, (error, httpResponse, body) => {
             if (error) return cb(error)

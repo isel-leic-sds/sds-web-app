@@ -25,9 +25,8 @@ $(document).ready(function () {
             const id = parseSdsID(label)
             item.attr('class', light_active_header)
             $.ajax({
-                method: 'POST',
-                url: '/sds/api/v1/patient/info',
-                data: { sdsID: id }
+                method: 'GET',
+                url:    `/sds/api/v1/patient/${id}`
             }).done(function (data) {
                 if (data) {
                     $('#patient_info').html(
@@ -87,40 +86,3 @@ function displaySecundaryContact(contact) {
         return ''
     }
 }
-
-$('#patient_ID-data').focusout(function () {
-    const input = $(this)
-    const value = input.val()
-    const field = $('#patient_ID-field')
-    if (value.length >= 5) {
-        $.ajax({
-            method: 'POST',
-            url: '/sds/api/v1/patient/validate',
-            data: { sdsID: value }
-        }).done(function (data) {
-            if (data) {
-                field.addClass('error')
-                $('#create-patient-btn').prop('disabled', true)
-                const errorMessage = $('.ui.error.message')
-                errorMessage.html(
-                    '<ul class="list">' +
-                    '<li>SDS_ID: Este identificador já existe</li>' +
-                    '</ul>'
-                )
-                errorMessage.show()
-            } else {
-                field.removeClass('error')
-                $('#create-patient-btn').prop('disabled', false)
-                const errorMessage = $('.ui.error.message')
-                errorMessage.html('')
-                errorMessage.hide()
-            }
-        });
-    } else {
-        field.removeClass('error')
-        $('#create-patient-btn').prop('disabled', false)
-        const errorMessage = $('.ui.error.message')
-        errorMessage.html('')
-        errorMessage.hide()
-    }
-})

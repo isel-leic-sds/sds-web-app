@@ -13,5 +13,5 @@ module.exports = patientRoutes;
 const patientController = require('../controller/patientController')(patientService)
 
 patientRoutes.get('/sds/patients', patientController.showPatients)
-patientRoutes.get('/sds/patient/create', patientController.showPatientCreateForm)
-patientRoutes.post('/sds/patient/create', patientController.sendPatientForm)
+patientRoutes.get('/sds/patientForm', patientController.showPatientCreateForm)
+patientRoutes.post('/sds/patientForm', patientController.sendPatientForm)

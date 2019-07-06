@@ -16,7 +16,7 @@ function patientController(patientService) {
         if (req.cookies.user) {
             obj.username = req.cookies.user.name
         }
-        patientService.getPatients({ followed_by: req.cookies.user.sdsID },
+        patientService.getPatients(req.cookies.user.sdsID,
             (error, data) => {
                 if (error) return next(error)
                 obj.patientsList = data

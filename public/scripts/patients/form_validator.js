@@ -55,9 +55,9 @@ $(document).ready(function () {
         const field = $('#patient_ID-field')
         if (value.length >= 5) {
             $.ajax({
-                method: 'POST',
-                url: '/sds/api/v1/patient/validate',
-                data: { sdsID: value }
+                method: 'GET',
+                url:    '/sds/api/v1/patient/validate',
+                data:   { sdsID: value }
             }).done(function (data) {
                 if (data) {
                     field.addClass('error')

@@ -40,10 +40,10 @@ function connect(success, next) {
 /**
  * Patients
  */
-router.post('/patients', function (req, res, next) {
+router.get('/patients/:followedBy', function (req, res, next) {
     connect((client) => {
         const patientsList = client.db(db_name).collection(patients_doc)
-        patientsList.find(req.body).toArray((error, data) => {
+        patientsList.find({ "followed_by": req.params.followedBy }).toArray((error, data) => {
             if (error) {
                 client.close()
                 return res.sendStatus(error)
@@ -53,19 +53,7 @@ router.post('/patients', function (req, res, next) {
     }, next)
 })
 
-router.post('/patient/info', function (req, res, next) {
-    connect((client) => {
-        client.db(db_name).collection(patients_info_doc).findOne(req.body, (error, data) => {
-            if (error) {
-                client.close()
-                res.sendStatus(error)
-            }
-            res.json(data)
-        })
-    }, next)
-})
-
-router.post('/patient/create', function (req, res, next) {
+router.post('/patient', function (req, res, next) {
     const patient = {
         sdsID: req.body['sdsID'],
         name: req.body['name'],
@@ -116,9 +104,21 @@ router.post('/patient/create', function (req, res, next) {
     }, next)
 })
 
-router.post('/patient/validate', function (req, res, next) {
+router.get('/patient/validate', function (req, res, next) {
     connect((client) => {
-        client.db(db_name).collection(patients_doc).findOne(req.body, (error, data) => {
+        client.db(db_name).collection(patients_doc).findOne({ "sdsID": req.query.sdsID }, (error, data) => {
+            if (error) {
+                client.close()
+                res.sendStatus(error)
+            }
+            res.json(data)
+        })
+    }, next)
+})
+
+router.get('/patient/:sdsID', function (req, res, next) {
+    connect((client) => {
+        client.db(db_name).collection(patients_info_doc).findOne({ "sdsID": req.params.sdsID }, (error, data) => {
             if (error) {
                 client.close()
                 res.sendStatus(error)
@@ -132,19 +132,6 @@ router.post('/patient/validate', function (req, res, next) {
  * User
  */
 router.post('/user', function (req, res, next) {
-    connect((client) => {
-        const users = client.db(db_name).collection(users_doc)
-        users.findOne(req.body, (error, data) => {
-            if (error) {
-                client.close()
-                return res.sendStatus(error)
-            }
-            res.json(data)
-        })
-    }, next)
-})
-
-router.post('/user/create', function (req, res, next) {
     connect((client) => {
         const users = client.db(db_name).collection(users_doc)
         users.findOne({ "sdsID": req.body.sdsID }, (error, data) => {
@@ -167,6 +154,19 @@ router.post('/user/create', function (req, res, next) {
 /**
  * Authentication
  */
+router.post('/users', function (req, res, next) {
+    connect((client) => {
+        const users = client.db(db_name).collection(users_doc)
+        users.findOne(req.body, (error, data) => {
+            if (error) {
+                client.close()
+                return res.sendStatus(error)
+            }
+            res.json(data)
+        })
+    }, next)
+})
+
 router.post('/login', function (req, res, next) {
     connect((client) => {
         const users = client.db(db_name).collection(users_doc)
