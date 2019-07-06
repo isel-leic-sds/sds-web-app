@@ -37,8 +37,7 @@ function userService() {
 
     function findById(data, cb) {
         request.post({
-            url:'https://sds-web-app.herokuapp.com/sds/api/v1/user',
-            // url:'http://localhost:3000/sds/api/v1/user',
+            url:'/sds/api/v1/user',
             form: data
         }, (error, httpResponse, body) => {
             if (error) return cb(error)

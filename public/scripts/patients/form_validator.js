@@ -56,8 +56,7 @@ $(document).ready(function () {
         if (value.length >= 5) {
             $.ajax({
                 method: 'POST',
-                url: 'https://sds-web-app.herokuapp.com/sds/api/v1/patient/validate',
-                // url: 'http://localhost:3000/sds/api/v1/patient/validate',
+                url: '/sds/api/v1/patient/validate',
                 data: { sdsID: value }
             }).done(function (data) {
                 if (data) {

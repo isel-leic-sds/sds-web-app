@@ -26,8 +26,7 @@ $(document).ready(function () {
             item.attr('class', light_active_header)
             $.ajax({
                 method: 'POST',
-                url: 'https://sds-web-app.herokuapp.com/sds/api/v1/patient/info',
-                // url: 'http://localhost:3000/sds/api/v1/patient/info',
+                url: '/sds/api/v1/patient/info',
                 data: { sdsID: id }
             }).done(function (data) {
                 if (data) {
@@ -96,8 +95,7 @@ $('#patient_ID-data').focusout(function () {
     if (value.length >= 5) {
         $.ajax({
             method: 'POST',
-            url: 'https://sds-web-app.herokuapp.com/sds/api/v1/patient/validate',
-            // url: 'http://localhost:3000/sds/api/v1/patient/validate',
+            url: '/sds/api/v1/patient/validate',
             data: { sdsID: value }
         }).done(function (data) {
             if (data) {

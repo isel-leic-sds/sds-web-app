@@ -1,6 +1,5 @@
 'use strict'
 const crypto = require('./../crypto')()
-const url = require('url')
 
 module.exports = patientController
 
