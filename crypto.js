@@ -10,7 +10,7 @@ const ALGORITHM_NAME = "aes-128-gcm";
 const ALGORITHM_NONCE_SIZE = 12;
 const ALGORITHM_TAG_SIZE = 16;
 const ALGORITHM_KEY_SIZE = 16;
-const PBKDF2_NAME = "sha256";
+const PBKDF2_NAME = "sha1";
 const PBKDF2_SALT_SIZE = 16;
 const PBKDF2_ITERATIONS = 32767;
 
