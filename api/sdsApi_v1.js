@@ -182,7 +182,6 @@ router.post('/login', function (req, res, next) {
 })
 
 router.post('/patient/login', function (req, res, next) {
-    console.log(`sdsID: ${req.body.sdsID}, isValid: ${userController.validatePassword(req.body.password, data.password)}`)
     connect((client) => {
         const patients = client.db(db_name).collection(patients_doc)
         patients.findOne({ "sdsID": req.body.sdsID }, (error, data) => {
