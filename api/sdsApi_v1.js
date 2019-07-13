@@ -11,6 +11,9 @@ const users_doc = 'users'
 const patients_doc = 'patients'
 const patients_info_doc = 'patients_info'
 
+const Patient = require('./../model/Patient')
+const PatientInfo = require('./../model/PatientInfo')
+
 module.exports = router;
 
 /**
@@ -54,27 +57,12 @@ router.get('/patients/:followedBy', function (req, res, next) {
 })
 
 router.post('/patient', function (req, res, next) {
-    const patient = {
-        sdsID: req.body['sdsID'],
-        name: req.body['name'],
-        password: req.body['password'],
-        followed_by: [
-            req.body['followed_by']
-        ]
-    }
-    const info = {
-        sdsID: req.body['sdsID'],
-        dateOfBirth: req.body['dateOfBirth'],
-        nif: req.body['nif'],
-        contact: {
-            name: req.body['contact']['name'],
-            phoneNumber: req.body['contact']['phoneNumber']
-        }
-    }
+    const patient = new Patient(req.body)
+    patient.password = req.body['password']
     connect((client) => {
         const patients = client.db(db_name).collection(patients_doc)
         const patient_info = client.db(db_name).collection(patients_info_doc)
-        patients.findOne({ "sdsID": patient.sdsID }, (error, data) => {
+        patients.findOne({ "sdsID": req.body['sdsID'] }, (error, data) => {
             if (error || data) {
                 client.close()
                 return res.sendStatus(error || 409)
@@ -86,7 +74,7 @@ router.post('/patient', function (req, res, next) {
                     client.close()
                     return next(patients_error)
                 }
-                patient_info.insertOne(info, (patient_info_error, patient_info_data) => {
+                patient_info.insertOne(patient.info, (patient_info_error, patient_info_data) => {
                     if (patient_info_error) {
                         session.abortTransaction()
                         session.endSession()
@@ -118,12 +106,20 @@ router.get('/patient/validate', function (req, res, next) {
 
 router.get('/patient/:sdsID', function (req, res, next) {
     connect((client) => {
-        client.db(db_name).collection(patients_info_doc).findOne({ "sdsID": req.params.sdsID }, (error, data) => {
+        client.db(db_name).collection(patients_doc).findOne({ "sdsID": req.params.sdsID }, (error, data) => {
             if (error) {
                 client.close()
                 res.sendStatus(error)
             }
-            res.json(data)
+            const patient = new Patient(data)
+            client.db(db_name).collection(patients_info_doc).findOne({ "sdsID": req.params.sdsID }, (error, info) => {
+                if (error) {
+                    client.close()
+                    res.sendStatus(error)
+                }
+                patient.info = new PatientInfo(info)
+                res.json(patient)
+            })
         })
     }, next)
 })

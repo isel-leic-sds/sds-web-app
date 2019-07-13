@@ -1,0 +1,14 @@
+'use strict'
+
+const SosContact = require('./SosContact')
+
+/**
+ * Creates a representative object for a specified Patient.
+ * @return {Patient::information} - Returned the patient information.
+ */
+
+module.exports = function (obj) {
+        this.dateOfBirth = obj.dateOfBirth
+        this.nif = obj.nif
+        this.contact = new SosContact(obj.contact)
+}

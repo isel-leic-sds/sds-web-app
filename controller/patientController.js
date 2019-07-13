@@ -41,19 +41,20 @@ function patientController(patientService) {
             obj.username = req.cookies.user.name
         }
         patientService.create({
-            name: req.body['name'],
             sdsID: req.body['sdsID'],
+            name: req.body['name'],
+            followed_by: req.user.sdsID,
             password: crypto.encrypt(req.body['password']),
-            followed_by: req.cookies.user.sdsID,
-            dateOfBirth: req.body['dateOfBirth'],
-            nif: req.body['nif'],
-            contact: {
-                name: req.body['contact-name'],
-                phoneNumber: req.body['contact-phoneNumber']
+            info: {
+                dateOfBirth: req.body['dateOfBirth'],
+                nif: req.body['nif'],
+                contact: {
+                    name: req.body['contact-name'],
+                    phoneNumber: req.body['contact-phoneNumber']
+                }
             }
         }, (error, data) => {
             if (error) return next(error)
-            req.session.target = data.sdsID
             res.redirect('/sds/patients')
         })
     }

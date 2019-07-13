@@ -31,10 +31,7 @@ function userController(userService) {
             if (err) { return next(err) }
             req.logIn(data, (err) => {
                 if (err) { return next(err) }
-                res.cookie('user', {
-                    tokenID: crypto.encrypt(data.password),
-                    name: data.name,
-                    sdsID: data.sdsID})
+                res.cookie('user', { tokenID: crypto.encrypt(data.password) })
                 res.redirect('/sds/home')
             })
         })

@@ -16,7 +16,7 @@ function patientService() {
             // url: `http://localhost:3000/sds/api/v1/patients/${followed_by}`,
         }, (error, httpResponse, body) => {
             if (error) return cb(error)
-            if (httpResponse.statusCode !== 200) return cb(new Error('Não foi possível aceder aos seus pacientes :( Contacte um administrador.'))
+            if (httpResponse.statusCode !== 200) return cb(new Error('Não foi possível aceder aos seus pacientes. Contacte um administrador.'))
             cb(null, JSON.parse(body))
         })
     }

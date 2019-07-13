@@ -27,23 +27,23 @@ $(document).ready(function () {
             $.ajax({
                 method: 'GET',
                 url:    `/sds/api/v1/patient/${id}`
-            }).done(function (data) {
-                if (data) {
+            }).done(function (patient) {
+                if (patient) {
                     $('#patient_info').html(
                         '<div class="ui segment">' +
                             '<h2 style="display: inline; color:#005461;">' +
-                                `<i class="user icon"></i> ${parseName(label)}` +
+                                `<i class="user icon"></i> ${patient.name}` +
                             '</h2>' +
                             '<div class="ui segment">' +
                                 '<div class="field">' +
-                                    `<i class="id badge icon"></i> NIF: ${data.nif}` +
+                                    `<i class="id badge icon"></i> NIF: ${patient.info.nif}` +
                                 '</div>' +
                                 '<div class="field">' +
-                                    '<i class="calendar alternate outline icon"></i>' + `Data de Nascimento: ${data.dateOfBirth}` +
+                                    '<i class="calendar alternate outline icon"></i>' + `Data de Nascimento: ${patient.info.dateOfBirth}` +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
-                        displaySecundaryContact(data.contact)
+                        displaySecundaryContact(patient.info.contact)
                     )
                     divider.removeClass('hidden')
                     divider.html('<i class="eye icon" style="margin-right: 0px;"></i>')
@@ -61,10 +61,6 @@ $(document).ready(function () {
 function parseSdsID(value) {
     const regex = /\((.*?)\)/g
     return regex.exec(value)[1]
-}
-
-function parseName(value) {
-    return value.trim().split('\n')[0]
 }
 
 function displaySecundaryContact(contact) {
