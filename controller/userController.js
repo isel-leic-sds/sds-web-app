@@ -43,6 +43,6 @@ function userController(userService) {
     }
 
     function validatePassword(password, target) {
-        return crypto.decrypt(password) === crypto.decrypt(target)
+        return password && target && crypto.decrypt(password) === crypto.decrypt(target)
     }
 }
