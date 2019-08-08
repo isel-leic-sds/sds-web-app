@@ -205,5 +205,5 @@ router.post('/quiz', function (req, res, next) {
     //     })
     // }, next)
     console.log(req.body.quiz)
-    res.status(201).json(null);
+    res.status(201).json({ response: 'Created' });
 })
