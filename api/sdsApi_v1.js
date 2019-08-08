@@ -205,5 +205,5 @@ router.post('/quiz', function (req, res, next) {
     //     })
     // }, next)
     console.log(req.body.quiz)
-    res.sendStatus(201)
+    res.status(201).json(null);
 })
