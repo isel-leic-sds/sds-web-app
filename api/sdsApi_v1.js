@@ -125,6 +125,35 @@ router.get('/patient/:sdsID', function (req, res, next) {
     }, next)
 })
 
+router.post('/patient/ans/:sdsId', function (req, res, next) {
+    // connect((client) => {
+    //     const quizs = client.db(db_name).collection(quiz_doc)
+    //     quizs.insertOne(req.body.quiz, (error, data) => {
+    //         if (error) {
+    //             client.close()
+    //             return next(error)
+    //         }
+    //         console.log(`Quiz ${data.ops[0].quiz} has been created!`)
+    //         res.sendStatus(201)
+    //     })
+    // }, next)
+    console.log(req.body.quiz)
+    res.status(201).json({ response: 'Created' });
+})
+
+router.get('/patient/quiz/:name', function(req, res, next) {
+    connect((client) => {
+        client.db(db_name).collection(quiz_doc).findOne({ "name" : req.params.name }, (error, data) => {
+            if(error) {
+                client.close()
+                res.sendStatus(error)
+            }
+            // const quiz = new Quiz(data)
+            res.json(data)
+        })
+    }, next)
+})
+
 /**
  * User
  */
@@ -189,34 +218,5 @@ router.post('/patient/login', function (req, res, next) {
             }
             res.json(data)
         })
-    }, next)
-})
-
-router.post('/quiz', function (req, res, next) {
-    // connect((client) => {
-    //     const quizs = client.db(db_name).collection(quiz_doc)
-    //     quizs.insertOne(req.body.quiz, (error, data) => {
-    //         if (error) {
-    //             client.close()
-    //             return next(error)
-    //         }
-    //         console.log(`Quiz ${data.ops[0].quiz} has been created!`)
-    //         res.sendStatus(201)
-    //     })
-    // }, next)
-    console.log(req.body.quiz)
-    res.status(201).json({ response: 'Created' });
-})
-
-router.get('/quiz/:name', function(req, res, next) {
-    connect((client) => {
-        client.db(db_name).collection(quiz_doc).findOne({ "name" : req.params.name }, (error), data) => {
-            if(error) {
-                client.close()
-                res.sendStatus(error)
-            }
-            // const quiz = new Quiz(data)
-            res.json(data)
-        }
     }, next)
 })
