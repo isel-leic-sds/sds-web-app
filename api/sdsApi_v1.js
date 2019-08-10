@@ -10,6 +10,7 @@ const db_name = 'sds-db'
 const users_doc = 'users'
 const patients_doc = 'patients'
 const patients_info_doc = 'patients_info'
+const quiz_doc = 'quiz'
 
 const Patient = require('./../model/Patient')
 const PatientInfo = require('./../model/PatientInfo')
@@ -189,4 +190,20 @@ router.post('/patient/login', function (req, res, next) {
             res.json(data)
         })
     }, next)
+})
+
+router.post('/quiz', function (req, res, next) {
+    // connect((client) => {
+    //     const quizs = client.db(db_name).collection(quiz_doc)
+    //     quizs.insertOne(req.body.quiz, (error, data) => {
+    //         if (error) {
+    //             client.close()
+    //             return next(error)
+    //         }
+    //         console.log(`Quiz ${data.ops[0].quiz} has been created!`)
+    //         res.sendStatus(201)
+    //     })
+    // }, next)
+    console.log(req.body.quiz)
+    res.status(201).json({ response: 'Created' });
 })
