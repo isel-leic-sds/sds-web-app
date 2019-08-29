@@ -11,5 +11,5 @@ module.exports = function (obj) {
         this.dateOfBirth = obj.dateOfBirth
         this.nif = obj.nif
         this.contact = new SosContact(obj.contact)
-        this.quiz = obj.quiz | 'gen1'
+        this.quiz = obj.quiz || 'gen1'
 }
