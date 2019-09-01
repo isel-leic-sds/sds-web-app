@@ -135,13 +135,14 @@ router.post('/patient/ans/:sdsId', function (req, res, next) {
         const quizs = client.db(db_name).collection(user)
         const quiz = JSON.parse(req.body.quiz)
         const docName = `${datetime.getMonth()+1}-${datetime.getFullYear()}`
+        const day = datetime.getDay()+1
         quizs.findOne({"name": docName}, (error, data) => {
             if (error) {
                 client.close()
                 return next(error)
             }
             if (!data) {
-                const quizResult = getQuizResult(quiz, docName, datetime.getDay()+1)
+                const quizResult = getQuizResult(quiz, docName, day)
                 quizs.insertOne(quizResult, (insertError, insertData) => {
                     if (insertError) {
                         client.close()
@@ -153,8 +154,8 @@ router.post('/patient/ans/:sdsId', function (req, res, next) {
                 })
             }
             else {
-                updateClinicalHistory(quiz, data, datetime.getDay())            
-                quizs.updateOne({"name": docName}, data.clinicalHistory, (updateError, updateData) => {
+                updateClinicalHistory(quiz, data, day)            
+                quizs.replaceOne({"name": docName}, data, (updateError, updateData) => {
                     if (updateError) {
                         client.close()
                         return next(updateError)
@@ -173,13 +174,13 @@ function updateClinicalHistory(quiz, data, day) {
         const result = data.clinicalHistory.find(elem => elem.question == question.question)                
         switch (question.type) {
             case 'Binary':
-                updateBinary(result, question)
+                updateBinaryAndSeekBar(result, question, day)
                 break
             case 'SeekBar':
-                updateSeekBar(result, question, day)
+                updateBinaryAndSeekBar(result, question, day)
                 break
             case 'Schedule':
-                //updateSchedule(result, question)
+                updateSchedule(result, question)
                 break
             default:
                 console.log('Question type does not exists.')
@@ -201,8 +202,8 @@ function getQuizResult(quiz, docName, day) {
                 quizResult.clinicalHistory.push(questionResult)
                 break
             case 'Schedule':
-                //createSchedule(questionResult, question)
-                //quizResult.clinicalHistory.push(questionResult)
+                createSchedule(questionResult, question)
+                quizResult.clinicalHistory.push(questionResult)
                 break
             default:
                 console.log('Question type does not exists.')
@@ -211,18 +212,19 @@ function getQuizResult(quiz, docName, day) {
     return quizResult
 }
 
-// function updateSchedule(result, question) {
-//     //TODO:
-// }
+function updateSchedule(result, question) {
+    result.answers[0].userAnswer.push(question.userAnswer.finalAnswer)
+}
 
 function updateBinaryAndSeekBar(result, question, day) {
     const answer = result.answers.find(elem => elem.answer == question.userAnswer.finalAnswer)
     answer.userAnswer.push(day)
 }
 
-// function createSchedule(questionResult, question) {
-//     //TODO:
-// }
+function createSchedule(questionResult, question) {
+    questionResult.answers.push(new Answer('Time', []))
+    updateSchedule(questionResult, question)
+}
 
 function createSeekBar(questionResult, question, day) {
     const count = parseInt(question.answerOptions.option1, 10);
