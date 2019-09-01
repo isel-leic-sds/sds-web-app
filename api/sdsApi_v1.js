@@ -14,6 +14,9 @@ const quiz_doc = 'quiz'
 
 const Patient = require('./../model/Patient')
 const PatientInfo = require('./../model/PatientInfo')
+const QuizResult = require('./../model/QuizResult')
+const QuestionResult = require('./../model/QuestionResult')
+const Answer = require('./../model/Answer')
 
 module.exports = router;
 
@@ -126,20 +129,114 @@ router.get('/patient/:sdsID', function (req, res, next) {
 })
 
 router.post('/patient/ans/:sdsId', function (req, res, next) {
-    // connect((client) => {
-    //     const quizs = client.db(db_name).collection(quiz_doc)
-    //     quizs.insertOne(req.body.quiz, (error, data) => {
-    //         if (error) {
-    //             client.close()
-    //             return next(error)
-    //         }
-    //         console.log(`Quiz ${data.ops[0].quiz} has been created!`)
-    //         res.sendStatus(201)
-    //     })
-    // }, next)
-    console.log(req.body.quiz)
-    res.status(201).json({ response: 'Created' });
+    const datetime = new Date();
+    connect((client) => {
+        const user = req.params.sdsId
+        const quizs = client.db(db_name).collection(user)
+        const quiz = JSON.parse(req.body.quiz)
+        const docName = `${datetime.getMonth()+1}-${datetime.getFullYear()}`
+        quizs.findOne({"name": docName}, (error, data) => {
+            if (error) {
+                client.close()
+                return next(error)
+            }
+            if (!data) {
+                const quizResult = getQuizResult(quiz, docName, datetime.getDay()+1)
+                quizs.insertOne(quizResult, (insertError, insertData) => {
+                    if (insertError) {
+                        client.close()
+                        return next(insertError)
+                    }
+                    console.log(`Quiz for ${user} was successfully submitted!`)
+                    res.statusCode = 201
+                    res.json(insertData)
+                })
+            }
+            else {
+                updateClinicalHistory(quiz, data, datetime.getDay())            
+                quizs.updateOne({"name": docName}, data.clinicalHistory, (updateError, updateData) => {
+                    if (updateError) {
+                        client.close()
+                        return next(updateError)
+                    }
+                    console.log(`Quiz for ${user} was successfully submitted!`)
+                    res.statusCode = 201
+                    res.json(updateData)
+                })
+            }                       
+        })
+    }, next)
 })
+
+function updateClinicalHistory(quiz, data, day) {
+    quiz.questions.forEach(question => {
+        const result = data.clinicalHistory.find(elem => elem.question == question.question)                
+        switch (question.type) {
+            case 'Binary':
+                updateBinary(result, question)
+                break
+            case 'SeekBar':
+                updateSeekBar(result, question, day)
+                break
+            case 'Schedule':
+                //updateSchedule(result, question)
+                break
+            default:
+                console.log('Question type does not exists.')
+        }
+    })
+}
+
+function getQuizResult(quiz, docName, day) {
+    const quizResult = new QuizResult(docName)
+    quiz.questions.forEach(question => {
+        const questionResult = new QuestionResult(question.type, question.question)             
+        switch (question.type) {
+            case 'Binary':
+                createBinary(questionResult, question, day)
+                quizResult.clinicalHistory.push(questionResult)
+                break
+            case 'SeekBar':
+                createSeekBar(questionResult, question, day)
+                quizResult.clinicalHistory.push(questionResult)
+                break
+            case 'Schedule':
+                //createSchedule(questionResult, question)
+                //quizResult.clinicalHistory.push(questionResult)
+                break
+            default:
+                console.log('Question type does not exists.')
+            }
+    })
+    return quizResult
+}
+
+// function updateSchedule(result, question) {
+//     //TODO:
+// }
+
+function updateBinaryAndSeekBar(result, question, day) {
+    const answer = result.answers.find(elem => elem.answer == question.userAnswer.finalAnswer)
+    answer.userAnswer.push(day)
+}
+
+// function createSchedule(questionResult, question) {
+//     //TODO:
+// }
+
+function createSeekBar(questionResult, question, day) {
+    const count = parseInt(question.answerOptions.option1, 10);
+    for (var i = 0; i <= count; i++) {
+        questionResult.answers.push(new Answer(i.toString(), []))
+    }
+    updateBinaryAndSeekBar(questionResult, question, day)
+}
+
+function createBinary(questionResult, question, day) {
+    questionResult.answers.push(new Answer(question.answerOptions.option1, []))
+    questionResult.answers.push(new Answer(question.answerOptions.option2, []))
+    updateBinaryAndSeekBar(questionResult, question, day)  
+}
 
 router.get('/patient/quiz/:name', function(req, res, next) {
     connect((client) => {
@@ -148,7 +245,18 @@ router.get('/patient/quiz/:name', function(req, res, next) {
                 client.close()
                 res.sendStatus(error)
             }
-            // const quiz = new Quiz(data)
+            res.json(data)
+        })
+    }, next)
+})
+
+router.get('/patients/history/:sdsId', function(req, res, next) {
+    connect((client) => {
+        client.db(db_name).collection(req.params.sdsId).findOne({ "name" : `${req.query.month}-${req.query.year}` }, (error, data) => {
+            if(error) {
+                client.close()
+                res.sendStatus(error)
+            }
             res.json(data)
         })
     }, next)
