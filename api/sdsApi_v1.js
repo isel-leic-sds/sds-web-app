@@ -154,7 +154,7 @@ router.post('/patient/ans/:sdsId', function (req, res, next) {
                 })
             }
             else {
-                updateClinicalHistory(quiz, data, day+1)            
+                updateClinicalHistory(quiz, data, day)            
                 quizs.replaceOne({"name": docName}, data, (updateError, updateData) => {
                     if (updateError) {
                         client.close()
