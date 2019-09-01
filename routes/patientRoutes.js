@@ -15,3 +15,4 @@ const patientController = require('../controller/patientController')(patientServ
 patientRoutes.get('/sds/patients', patientController.showPatients)
 patientRoutes.get('/sds/patientForm', patientController.showPatientCreateForm)
 patientRoutes.post('/sds/patientForm', patientController.sendPatientForm)
+patientRoutes.get('/sds/patients/history/:patientId', patientController.showClinicalHistory)

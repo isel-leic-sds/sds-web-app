@@ -1,48 +1,50 @@
 $(document).ready(function () {
-    $('.ui.dark-color.header').hover(
+    $('[id^="patient-"]').hover(
         function () {
-            if (!$(this).hasClass('selected')) {
-                $(this).attr('class', 'ui light-color active header')
+            const item = $(this)
+            const index = item.attr('index')
+            if (!item.hasClass('selected')) {
+                $(`#patient-delete-${index}`).attr('class', 'ui light-color active header')
+                $(`#patient-info-${index}`).attr('class', 'ui light-color active header')
+                $(`#patient-history-${index}`).attr('class', 'ui light-color active header')
             }
         },
         function () {
-            if (!$(this).hasClass('selected')) {
-                $(this).attr('class', 'ui dark-color header')
+            const item = $(this)
+            const index = item.attr('index')
+            if (!item.hasClass('selected')) {
+                $(`#patient-delete-${index}`).attr('class', 'ui dark-color header')
+                $(`#patient-info-${index}`).attr('class', 'ui dark-color header')
+                $(`#patient-history-${index}`).attr('class', 'ui dark-color header')
             }
         }
     )
 
-    $('.ui.dark-color.header').click(function () {
+    $('[id^="patient-info-"]').click(function () {
         const item = $(this)
         const dark_header ='ui dark-color header'
         const light_active_header = 'ui light-color active selected header'
         const divider = $('#patient_info_divider')
-        if (!$(this).hasClass('selected')) {
-            $('[id|="patient"]').each(function (i, el) {
+        if (!item.hasClass('selected')) {
+            $('[id^="patient-"]').each(function (i, el) {
                 $(el).attr('class', dark_header)
             });
             const label = item.children('.content').text()
             const id = parseSdsID(label)
-            item.attr('class', light_active_header)
+            const index = item.attr('index')
+            $('[id^="patient-"]').each(function (i, el) {
+                $(el).attr('class', dark_header)
+            });
+            $(`#patient-delete-${index}`).attr('class', light_active_header)
+            $(`#patient-info-${index}`).attr('class', light_active_header)
+            $(`#patient-history-${index}`).attr('class', light_active_header)
             $.ajax({
                 method: 'GET',
                 url:    `/sds/api/v1/patient/${id}`
             }).done(function (patient) {
                 if (patient) {
                     $('#patient_info').html(
-                        '<div class="ui segment">' +
-                            '<h2 style="display: inline; color:#005461;">' +
-                                `<i class="user icon"></i> ${patient.name}` +
-                            '</h2>' +
-                            '<div class="ui segment">' +
-                                '<div class="field">' +
-                                    `<i class="id badge icon"></i> NIF: ${patient.info.nif}` +
-                                '</div>' +
-                                '<div class="field">' +
-                                    '<i class="calendar alternate outline icon"></i>' + `Data de Nascimento: ${patient.info.dateOfBirth}` +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
+                        displayPatientInfo(patient) +
                         displaySecundaryContact(patient.info.contact)
                     )
                     divider.removeClass('hidden')
@@ -61,6 +63,22 @@ $(document).ready(function () {
 function parseSdsID(value) {
     const regex = /\((.*?)\)/g
     return regex.exec(value)[1]
+}
+
+function displayPatientInfo(patient) {
+    return '<div class="ui segment">' +
+        '<h2 style="display: inline; color:#005461;">' +
+            `<i class="user icon"></i> ${patient.name}` +
+        '</h2>' +
+        '<div class="ui segment">' +
+            '<div class="field">' +
+                `<i class="id badge icon"></i> NIF: ${patient.info.nif}` +
+            '</div>' +
+            '<div class="field">' +
+                '<i class="calendar alternate outline icon"></i>' + `Data de Nascimento: ${patient.info.dateOfBirth}` +
+            '</div>' +
+        '</div>' +
+    '</div>'
 }
 
 function displaySecundaryContact(contact) {

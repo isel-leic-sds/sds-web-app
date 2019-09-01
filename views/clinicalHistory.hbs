@@ -1,0 +1,45 @@
+{{!-- Patients Clinical History --}}
+<header>
+    {{> menu patients="active"}}
+</header>
+<main class="site-content">
+  <div class="ui basic segment">
+    <h1 style="display: inline; color:#005461;">
+      <i class="chart bar outline icon"></i>
+      Registo Clínico
+    </h1>
+  </div>
+  {{#if history}}
+  <div class="ui basic segment">
+    <table class="ui very basic collapsing celled table">
+      <tbody>
+        <tr>
+          <th class="collapsing centered">
+            <h4 class="ui dark-color header">
+              Data
+            </h4>
+          </th>
+          {{#each history.headers}}
+          <th class="collapsing centered">
+            <h4 class="ui dark-color header">
+              {{@this}}
+            </h4>
+          </th>
+          {{/each}}
+        </tr>
+        {{#each history.answers}}
+        <tr>
+          {{#each @this}}
+          <td>
+            <p class="collapsing centered">
+              {{@this}}
+            </p>
+          </td>
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{/if}}
+</main>

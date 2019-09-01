@@ -1,6 +1,8 @@
 'use strict'
 const crypto = require('./../crypto')()
 
+const ClinicalHistory = require('./../model/ClinicalHistory')
+
 module.exports = patientController
 
 function patientController(patientService) {
@@ -8,7 +10,8 @@ function patientController(patientService) {
     return {
         showPatients: showPatients,
         showPatientCreateForm: showPatientCreateForm,
-        sendPatientForm: sendPatientForm
+        sendPatientForm: sendPatientForm,
+        showClinicalHistory: showClinicalHistory
     }
 
     function showPatients(req, res, next) {
@@ -19,6 +22,9 @@ function patientController(patientService) {
         patientService.getPatients(req.cookies.user.sdsID,
             (error, data) => {
                 if (error) return next(error)
+                const today = new Date();
+                obj.month = today.getMonth() + 1
+                obj.year = today.getFullYear()
                 obj.patientsList = data
                 obj.hasPatients = data.length > 0
                 obj.target = req.session.target
@@ -57,5 +63,21 @@ function patientController(patientService) {
             if (error) return next(error)
             res.redirect('/sds/patients')
         })
+    }
+
+    function showClinicalHistory(req, res, next) {
+        let obj = {}
+        if (req.cookies.user) {
+            obj.username = req.cookies.user.name
+        }
+        patientService.getClinicalHistory({
+            patientId: req.params["patientId"],
+            today: req.query,
+        }, (error, data) => {
+                if (error) return next(error)
+                obj.history = new ClinicalHistory(data)
+                res.render('clinicalHistory', obj)
+            }
+        )
     }
 }

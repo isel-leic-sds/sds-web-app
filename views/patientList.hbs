@@ -26,15 +26,25 @@
                         {{#each patientsList}}
                         <tr>
                             <td class="collapsing">
-                                <h4 id="patient-{{@index}}" class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header">
+                                <h4 id="patient-delete-{{@index}}" index={{@index}} user={{sdsID}} class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header">
+                                    <i class="trash icon"></i>
+                                </h4>
+                            </td>
+                            <td class="collapsing">
+                                <div id="patient-info-{{@index}}" index={{@index}} class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header">
                                     <i class="user icon"></i>
                                     <div class="content">
                                         {{name}}
                                         <div class="sub header">({{sdsID}})</div>
                                     </div>
-                                </h4>
+                                </div>
                             </td>
-                            <td></td>
+                            <td class="collapsing">
+                                <a id="patient-history-{{@index}}" index={{@index}} class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header" href="/sds/patients/history/{{sdsID}}?month={{@root.month}}&year={{@root.year}}">
+                                    <i class="chart bar outline icon"></i>
+                                </a>
+                            </td>
+                            <td class="collapsing"></td>
                         </tr>
                         {{/each}}
                     </tbody>
