@@ -154,7 +154,7 @@ router.post('/patient/ans/:sdsId', function (req, res, next) {
                 })
             }
             else {
-                updateClinicalHistory(quiz, data, day)            
+                updateClinicalHistory(quiz, data, day+1)            
                 quizs.replaceOne({"name": docName}, data, (updateError, updateData) => {
                     if (updateError) {
                         client.close()
@@ -180,7 +180,7 @@ function updateClinicalHistory(quiz, data, day) {
                 updateBinaryAndSeekBar(result, question, day)
                 break
             case 'Schedule':
-                updateSchedule(result, question)
+                updateSchedule(result, day)
                 break
             default:
                 console.log('Question type does not exists.')
@@ -202,7 +202,7 @@ function getQuizResult(quiz, docName, day) {
                 quizResult.clinicalHistory.push(questionResult)
                 break
             case 'Schedule':
-                createSchedule(questionResult, question)
+                createSchedule(questionResult, question, day)
                 quizResult.clinicalHistory.push(questionResult)
                 break
             default:
@@ -212,8 +212,8 @@ function getQuizResult(quiz, docName, day) {
     return quizResult
 }
 
-function updateSchedule(result, question) {
-    result.answers[0].userAnswer.push(question.userAnswer.finalAnswer)
+function updateSchedule(result, day) {
+    result.answers[0].userAnswer.push(day)
 }
 
 function updateBinaryAndSeekBar(result, question, day) {
@@ -221,9 +221,9 @@ function updateBinaryAndSeekBar(result, question, day) {
     answer.userAnswer.push(day)
 }
 
-function createSchedule(questionResult, question) {
-    questionResult.answers.push(new Answer('Time', []))
-    updateSchedule(questionResult, question)
+function createSchedule(questionResult, question, day) {
+    questionResult.answers.push(new Answer(question.userAnswer.finalAnswer, []))
+    updateSchedule(questionResult, day)
 }
 
 function createSeekBar(questionResult, question, day) {
