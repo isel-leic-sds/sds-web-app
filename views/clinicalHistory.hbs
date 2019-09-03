@@ -1,4 +1,9 @@
 {{!-- Patients Clinical History --}}
+<style>
+th,td {
+  font-size: 10px;
+}
+</style>
 <header>
     {{> menu patients="active"}}
 </header>
@@ -10,36 +15,42 @@
     </h1>
   </div>
   {{#if history}}
-  <div class="ui basic segment">
-    <table class="ui very basic collapsing celled table">
-      <tbody>
-        <tr>
-          <th class="collapsing centered">
-            <h4 class="ui dark-color header">
-              Data
-            </h4>
-          </th>
-          {{#each history.headers}}
-          <th class="collapsing centered">
-            <h4 class="ui dark-color header">
-              {{@this}}
-            </h4>
-          </th>
-          {{/each}}
-        </tr>
-        {{#each history.answers}}
-        <tr>
-          {{#each @this}}
-          <td>
-            <p class="collapsing centered">
-              {{@this}}
-            </p>
-          </td>
-          {{/each}}
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+  <div class="container">
+    <div class="row">
+      <div class="ui basic segment">
+        <table style='font-size:80%' class="ui very basic collapsing celled table">
+          <tbody>
+            <tr>
+              <th class="collapsing centered">
+                <!--h4 class="ui dark-color header">
+                  Data
+                </h4-->
+                Data
+              </th>
+              {{#each history.headers}}
+              <th class="collapsing centered">
+                <!--h4 class="ui dark-color header">
+                  {{@this}}
+                </h4-->
+                {{@this}}
+              </th>
+              {{/each}}
+            </tr>
+            {{#each history.answers}}
+            <tr>
+              {{#each @this}}
+              <td>
+                <p class="collapsing centered">
+                  {{@this}}
+                </p>
+              </td>
+              {{/each}}
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   {{/if}}
 </main>
