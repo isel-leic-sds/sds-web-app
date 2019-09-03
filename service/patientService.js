@@ -38,8 +38,8 @@ function patientService() {
         const month = params.today["month"]
         const year = params.today["year"]
         request.get({
-            // url: `https://sds-web-app.herokuapp.com/sds/api/v1/patients/history/${params.patientId}?month=${month}&year=${year}`
-            url: `http://localhost:3000/sds/api/v1/patients/history/${params.patientId}?month=${month}&year=${year}`
+            url: `https://sds-web-app.herokuapp.com/sds/api/v1/patients/history/${params.patientId}?month=${month}&year=${year}`
+            // url: `http://localhost:3000/sds/api/v1/patients/history/${params.patientId}?month=${month}&year=${year}`
         }, (error, httpResponse, body) => {
             if (error) return cb(error)
             if (body == "null") return cb(new Error('Este paciente ainda não possuí historial clínico.')) // TODO - this code is ugly
