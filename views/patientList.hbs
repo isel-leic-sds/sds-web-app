@@ -26,11 +26,6 @@
                         {{#each patientsList}}
                         <tr>
                             <td class="collapsing">
-                                <h4 id="patient-delete-{{@index}}" index={{@index}} user={{sdsID}} class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header">
-                                    <i class="trash icon"></i>
-                                </h4>
-                            </td>
-                            <td class="collapsing">
                                 <div id="patient-info-{{@index}}" index={{@index}} class="ui dark-color {{#match sdsID @root.target}} active selected {{/match}} header">
                                     <i class="user icon"></i>
                                     <div class="content">

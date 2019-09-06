@@ -4,7 +4,6 @@ $(document).ready(function () {
             const item = $(this)
             const index = item.attr('index')
             if (!item.hasClass('selected')) {
-                $(`#patient-delete-${index}`).attr('class', 'ui light-color active header')
                 $(`#patient-info-${index}`).attr('class', 'ui light-color active header')
                 $(`#patient-history-${index}`).attr('class', 'ui light-color active header')
             }
@@ -13,7 +12,6 @@ $(document).ready(function () {
             const item = $(this)
             const index = item.attr('index')
             if (!item.hasClass('selected')) {
-                $(`#patient-delete-${index}`).attr('class', 'ui dark-color header')
                 $(`#patient-info-${index}`).attr('class', 'ui dark-color header')
                 $(`#patient-history-${index}`).attr('class', 'ui dark-color header')
             }
@@ -35,7 +33,6 @@ $(document).ready(function () {
             $('[id^="patient-"]').each(function (i, el) {
                 $(el).attr('class', dark_header)
             });
-            $(`#patient-delete-${index}`).attr('class', light_active_header)
             $(`#patient-info-${index}`).attr('class', light_active_header)
             $(`#patient-history-${index}`).attr('class', light_active_header)
             $.ajax({
