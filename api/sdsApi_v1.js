@@ -63,7 +63,7 @@ router.get('/patients/:followedBy', function (req, res, next) {
 router.post('/patient', function (req, res, next) {
     const patient = new Patient(req.body)
     patient.password = req.body['password']
-    const patientInfo = new PatientInfo(req.body)
+    const patientInfo = new PatientInfo(req.body.info)
     patientInfo.sdsID = patient.sdsID
     connect((client) => {
         const patients = client.db(db_name).collection(patients_doc)
