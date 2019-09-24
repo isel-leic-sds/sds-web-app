@@ -63,6 +63,8 @@ router.get('/patients/:followedBy', function (req, res, next) {
 router.post('/patient', function (req, res, next) {
     const patient = new Patient(req.body)
     patient.password = req.body['password']
+    const patientInfo = new PatientInfo(req.body)
+    patientInfo.sdsID = patient.sdsID
     connect((client) => {
         const patients = client.db(db_name).collection(patients_doc)
         const patient_info = client.db(db_name).collection(patients_info_doc)
@@ -78,7 +80,7 @@ router.post('/patient', function (req, res, next) {
                     client.close()
                     return next(patients_error)
                 }
-                patient_info.insertOne(patient.info, (patient_info_error, patient_info_data) => {
+                patient_info.insertOne(patientInfo, (patient_info_error, patient_info_data) => {
                     if (patient_info_error) {
                         session.abortTransaction()
                         session.endSession()

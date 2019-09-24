@@ -12,4 +12,5 @@ module.exports = function (obj) {
         this.nif = obj.nif
         this.contact = new SosContact(obj.contact)
         this.quiz = obj.quiz || 'gen1'
+        this.followed_by = obj.followed_by
 }
